@@ -154,5 +154,16 @@ class TweetController extends Controller
       ->get();
       return view('tweet.index', compact('tweets'));
     }
+    public function bad()
+    {
+      $badings = User::find(Auth::id())->badings->pluck('id')->all();
+      $tweets = Tweet::query()
+       ->where('user_id', Auth::id())
+       ->orWhereIn('user_id', $badings)
+       ->orderBy('updated_at', 'desc')
+       ->get();
+       return view('tweet.index', compact('tweets'));
+    }
+
 
 }

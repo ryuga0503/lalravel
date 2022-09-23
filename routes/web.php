@@ -5,6 +5,7 @@ use App\Http\Controllers\TweetController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\badController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,11 +18,16 @@ use App\Http\Controllers\SearchController;
 |
 */
 Route::group(['middleware' => 'auth'], function () {
+  Route::get('/tweet/bad', [TweetController::class, 'bad'])->name('tweet.bad');
+  Route::get('user/{user}', [badController::class, 'show'])->name('bad.show');
   // 🔽 追加（検索画面）
   Route::get('/tweet/search/input', [SearchController::class, 'create'])->name('search.input');
   // 🔽 追加（検索処理）
   Route::get('/tweet/search/result', [SearchController::class, 'index'])->name('search.result');
   //
+  Route::post('user/{user}/bad', [badController::class, 'store'])->name('bad');
+  // 🔽 追加
+  Route::post('user/{user}/unbad', [badController::class, 'destroy'])->name('unbad');
   Route::get('/tweet/timeline', [TweetController::class, 'timeline'])->name('tweet.timeline');
   Route::get('user/{user}', [FollowController::class, 'show'])->name('follow.show');
   Route::post('user/{user}/follow', [FollowController::class, 'store'])->name('follow');
