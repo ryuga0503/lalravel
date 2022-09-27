@@ -158,7 +158,7 @@ class TweetController extends Controller
     {
       $badings = User::find(Auth::id())->badings->pluck('id')->all();
       $tweets = Tweet::query()
-       ->where('user_id', Auth::id())
+       ->where('user_id')
        ->orWhereIn('user_id', $badings)
        ->orderBy('updated_at', 'desc')
        ->get();
